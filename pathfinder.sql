@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 04. Dez 2016 um 15:55
+-- Erstellungszeit: 16. Mrz 2017 um 12:39
 -- Server-Version: 10.1.16-MariaDB
 -- PHP-Version: 5.5.38
 
@@ -29,20 +29,24 @@ SET time_zone = "+00:00";
 CREATE TABLE `captures` (
   `id` int(11) NOT NULL,
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `roi_height` int(11) NOT NULL COMMENT 'Width of the region of interest in pixel',
-  `roi_position` int(11) NOT NULL COMMENT 'Position of the region of itnerest (distance between the left edge of the photo and the left edge of the roi in pixel)',
-  `path_position` int(11) NOT NULL,
-  `path_width` int(11) NOT NULL
+  `path_position` float NOT NULL,
+  `roi_height` int(11) NOT NULL,
+  `roi_position` int(11) NOT NULL,
+  `path_width` int(11) NOT NULL,
+  `on_track` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+-- --------------------------------------------------------
+
 --
--- Daten für Tabelle `captures`
+-- Tabellenstruktur für Tabelle `controllsignal`
 --
 
-INSERT INTO `captures` (`id`, `date`, `roi_height`, `roi_position`, `path_position`, `path_width`) VALUES
-(1, '2016-11-25 22:50:45', 254, 34, 100, 32),
-(2, '2016-11-25 22:50:49', 254, 34, 100, 32),
-(3, '2016-11-25 22:50:52', 254, 34, 100, 32);
+CREATE TABLE `controllsignal` (
+  `id` int(11) NOT NULL,
+  `move` tinyint(1) NOT NULL,
+  `direction` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Indizes der exportierten Tabellen
@@ -55,6 +59,12 @@ ALTER TABLE `captures`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indizes für die Tabelle `controllsignal`
+--
+ALTER TABLE `controllsignal`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT für exportierte Tabellen
 --
 
@@ -62,7 +72,12 @@ ALTER TABLE `captures`
 -- AUTO_INCREMENT für Tabelle `captures`
 --
 ALTER TABLE `captures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19214;
+--
+-- AUTO_INCREMENT für Tabelle `controllsignal`
+--
+ALTER TABLE `controllsignal`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
