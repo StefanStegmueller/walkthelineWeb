@@ -19,7 +19,7 @@ $conn = new mysqli('localhost', 'root', '', 'pathfinder');
 if ($conn->connect_error)
     die("Connection failed: " . $conn->connect_error);
 
-if (!($stmt = $conn->prepare("INSERT INTO `captures` (`id`, `date`, `roi_height`, `roi_position`, `path_position`, `path_width`, `on_track`) VALUES (NULL, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?);"))) {
+if (!($stmt = $conn->prepare("INSERT INTO `captures` (`id`, `date`, `roi_height`, `roi_position`, `path_position`, `path_width`) VALUES (NULL, CURRENT_TIMESTAMP, ?, ?, ?, ?);"))) {
     //echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
 }
 
@@ -31,8 +31,7 @@ $roi_height = $_POST["roi_height"];
 $roi_position = $_POST["roi_position"];
 $path_position = $_POST["path_position"];
 $path_width = $_POST["path_width"];
-$on_track = $_POST["on_track"];
-$stmt->bind_param('iidib', $roi_height, $roi_position, $path_position, $path_width, $on_track);
+$stmt->bind_param('iidi', $roi_height, $roi_position, $path_position, $path_width);
 $stmt->execute();
 $id = $stmt->insert_id;
 	
@@ -59,66 +58,24 @@ else
 	// echo 'not uploaded';
 }
 
-
-
-// Build response
-
+// Wenn on_track sich von true zu false ändert muss wait_for_manual_instruction auf true gesetzt werden
 
 mysql_connect("localhost", "root","")or die ("Die Verbindung schlug fehl".mysql_error());
 mysql_select_db("pathfinder") or die ("Die Verbindung schlug fehl".mysql_error());
 
 
-$result = mysql_query("SELECT `move`, `direction` FROM `controllsignal` ORDER BY `id` DESC LIMIT 1") or die ("Error in query: $query. ".mysql_error());
+
+// Build response
+$result = mysql_query("SELECT `direction` FROM `controllsignal` ORDER BY `id` DESC LIMIT 1") or die ("Error in query: $query. ".mysql_error());
 
 $output = array();
 
 while($row = mysql_fetch_array($result))
 {
-	$output["move"] = $row["move"];
-	$output["direction"] = $row["direction"];
-}
-
-
-$result = mysql_query("SELECT `on_track` FROM `captures` ORDER BY `id` DESC LIMIT 1 ") or die ("Error in query: $query. ".mysql_error());
-
-while($row = mysql_fetch_array($result))
-{
-	$output["wait_for_manual_instruction"] = !$row["on_track "];
+	$output["direction"] = (int)$row["direction"];
 }
 
 echo json_encode($output);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ?>

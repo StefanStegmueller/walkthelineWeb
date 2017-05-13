@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 16. Mrz 2017 um 12:39
+-- Erstellungszeit: 13. Mai 2017 um 12:27
 -- Server-Version: 10.1.16-MariaDB
 -- PHP-Version: 5.5.38
 
@@ -32,8 +32,7 @@ CREATE TABLE `captures` (
   `path_position` float NOT NULL,
   `roi_height` int(11) NOT NULL,
   `roi_position` int(11) NOT NULL,
-  `path_width` int(11) NOT NULL,
-  `on_track` tinyint(1) NOT NULL
+  `path_width` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -44,7 +43,6 @@ CREATE TABLE `captures` (
 
 CREATE TABLE `controllsignal` (
   `id` int(11) NOT NULL,
-  `move` tinyint(1) NOT NULL,
   `direction` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -72,12 +70,12 @@ ALTER TABLE `controllsignal`
 -- AUTO_INCREMENT für Tabelle `captures`
 --
 ALTER TABLE `captures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19214;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31294;
 --
 -- AUTO_INCREMENT für Tabelle `controllsignal`
 --
 ALTER TABLE `controllsignal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7006;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

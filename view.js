@@ -10,10 +10,56 @@ function getCurrentPhoto()
 		url:"getCurrentPhoto.php",  
 		success:function(data) {
 			updatePhoto(data);
-//			getCurrentPhoto(); // Did you mean: Recursion
+			getCurrentPhoto(); // Did you mean: Recursion
 		}
 	});
 }
+
+
+
+$(document).keydown(function(e) {
+    switch(e.which) {
+        case 37: // left
+		setControllSignal(1, -1)
+        break;
+
+        case 38: // up
+		setControllSignal(1, 0)
+        break;
+
+        case 39: // right
+		setControllSignal(1, 1)
+        break;
+
+        case 40: // down
+        break;
+
+        default: return; // exit this handler for other keys
+    }
+    e.preventDefault(); // prevent the default action (scroll / move caret)
+});
+
+
+$(document).keyup(function(e) {
+    switch(e.which) {
+        case 37: // left
+		setControllSignal(0, 0)
+        break;
+        case 38: // up
+		setControllSignal(0, 0)
+        break;
+        case 39: // right
+		setControllSignal(0, 0)
+        break;
+
+        case 40: // down
+        break;
+
+        default: return; // exit this handler for other keys
+    }
+    e.preventDefault(); // prevent the default action (scroll / move caret)
+});
+
 
 function updatePhoto(data)
 {
@@ -30,7 +76,16 @@ function updatePhoto(data)
 	
 	$("#currentPhoto").css("background-image", "url(captures/" + photoData.id + ".jpg)");
 	//drawRoi(photoData.roiHeight, photoData.roiPosition);
-	drawPath(photoData.roiHeight, photoData.roiPosition, photoData.pathWidth, photoData.pathPosition);
+	
+	if(photoData.direction != -2)
+	{
+		$("#robiController").text("Robi is driving autonomously");
+		drawPath(photoData.roiHeight, photoData.roiPosition, photoData.pathWidth, photoData.pathPosition);
+	}
+	else
+	{
+		$("#robiController").text("You can controll Robi now");
+	}
 	$("#taken").html(photoData.date);
 }
 
@@ -55,9 +110,8 @@ function drawPath(roiHeight, roiPosition, pathWidth, pathPosition)
 	var ctx=c.getContext("2d");
 	ctx.beginPath();
 	ctx.lineWidth="6";
-	ctx.strokeStyle="red";
+	ctx.strokeStyle="#E2001A";
 	rectPosition = (pathPosition + 1) * 320;
-	console.log("------------------ " + pathPosition + " -- " + rectPosition)
 	ctx.rect(rectPosition,0,0,100);
 	ctx.stroke();
 }
